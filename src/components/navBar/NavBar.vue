@@ -20,11 +20,11 @@
         </MenuItem>
       </Col>
       <Col span="2">
-        <MenuItem v-if="!username" name="login">
-          登录
+        <MenuItem v-if="this.$store.state.User.username" name="home">
+          {{$store.state.User.username}}
         </MenuItem>
-        <MenuItem v-else>
-          {{username}}
+        <MenuItem v-else name="login">
+          登录
         </MenuItem>
       </Col>
     </Row>
@@ -35,7 +35,6 @@
     data () {
       return {
         theme: 'dark',
-        username: this.$store.state.User.username
       }
     },
     methods: {

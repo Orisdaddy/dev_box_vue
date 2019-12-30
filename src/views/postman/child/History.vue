@@ -1,12 +1,10 @@
 <template>
-  <div>
-    postman
-  </div>
+
 </template>
 
 <script>
   export default {
-    name: "PostMan"
+    name: "history"
   }
 </script>
 

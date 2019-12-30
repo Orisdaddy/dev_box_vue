@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from 'views/Home.vue'
-const PostMan = () => import('views/PostMan')
-const MarkDown = () => import('views/MarkDown')
-const Machine = () => import('views/Machine')
-const Login = () => import('views/Login')
+const PostMan = () => import('views/postman/PostMan')
+const MarkDown = () => import('views/markdown/MarkDown')
+const Machine = () => import('views/machine/Machine')
+const Login = () => import('views/login/Login')
 
 Vue.use(VueRouter)
 

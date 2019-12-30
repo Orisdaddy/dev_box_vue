@@ -8,7 +8,7 @@ import User from "./modules/User";
 Vue.use(Vuex)
 
 const State = {
-
+  isRequest: false
 }
 
 export default new Vuex.Store({

@@ -9,6 +9,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^3.4.3",
+    "editor.md": "^1.5.0",
+    "jsoneditor": "^8.1.0",
     "view-design": "^4.0.2",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
