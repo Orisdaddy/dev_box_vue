@@ -2,8 +2,7 @@
   <div class="term-tabs">
     <Tabs v-if="tabs.length != 0" type="card" @on-tab-remove="handleTabRemove" :animated="false">
       <TabPane v-for="(i, index) in tabs" :key="index" :label="i.label" closable>
-<!--        <console :session-id="i.id" :term-id="'console' + index"/>-->
-        <term-test :session-id="i.id" :term-id="'console' + index"/>
+        <console :session-id="i.id" :term-id="'console' + index"/>
       </TabPane>
     </Tabs>
     <div v-else>
