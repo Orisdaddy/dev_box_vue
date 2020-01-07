@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-json-editor v-if="Json" v-model="Json" :allowEditor="allowEditor" :show-btns="false" :mode="'code'" :exapndedOnStart="true" @json-change="JsonChange"></vue-json-editor>
-    <vue-json-editor v-else v-model="json" :allowEditor="allowEditor" :show-btns="false" :mode="'code'" :exapndedOnStart="true" @json-change="JsonChange"></vue-json-editor>
+    <vue-json-editor v-model="Json" :allowEditor="allowEditor" :show-btns="false" :mode="'code'" :exapndedOnStart="true" @json-change="JsonChange"></vue-json-editor>
+<!--    <vue-json-editor v-else v-model="json" :allowEditor="allowEditor" :show-btns="false" :mode="'code'" :exapndedOnStart="true" @json-change="JsonChange"></vue-json-editor>-->
   </div>
 </template>
 
@@ -19,19 +19,15 @@
       },
       Id: Number
     },
-    data() {
-      return{
-        json: {}
-      }
-    },
+
     components: {
       vueJsonEditor
     },
 
     methods: {
       JsonChange(v) {
-        this.$emit('jsonChange', v)
-      }
+        this.$store.state.Postman.body = v
+      },
     },
     mounted() {
       const menu = document.getElementsByClassName('jsoneditor-menu')

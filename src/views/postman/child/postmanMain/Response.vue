@@ -6,7 +6,6 @@
         <div>
           <span class="bs">Status:</span>{{res.status}} {{res.statusText}}
           <span class="bs">Time:</span>{{res.Times}}ms
-<!--          <span class="bs">Size:</span>-->
         </div>
       </div>
       <Tabs type="card">

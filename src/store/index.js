@@ -4,6 +4,7 @@ import Getters from './getters'
 import Actions from './actions'
 import Mutations from './mutations'
 import User from "./modules/User";
+import Postman from "./modules/Postman"
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   mutations: Mutations,
   actions: Actions,
   modules: {
-    User
+    User,
+    Postman
   }
 })

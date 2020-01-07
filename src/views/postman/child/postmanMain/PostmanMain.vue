@@ -1,8 +1,8 @@
 <template>
   <div class="postman-main">
-    <url-input @getRes="getRes" @close="closeLoading" @open="openLoading" class="views" :params="Params" :headers="Headers" :Json="Json"/>
+    <url-input @getRes="getRes" @close="closeLoading" @open="openLoading" class="views"/>
     <h2>Request</h2>
-    <request-input class="views" :is-load="isLoad" :params="Params" :headers="Headers" @jsonChange="jsonChange"/>
+    <request-input class="views" :is-load="isLoad"/>
     <response :res="response" class="views"/>
   </div>
 </template>
@@ -15,9 +15,6 @@
     name: "PostmanMain",
     data() {
       return {
-        Params: [],
-        Headers: [],
-        Json: {},
         response:{},
         isLoad: false
       }
@@ -28,9 +25,6 @@
       Response
     },
     methods: {
-      jsonChange(v) {
-        this.Json = v
-      },
       getRes(res) {
         this.response = res
       },

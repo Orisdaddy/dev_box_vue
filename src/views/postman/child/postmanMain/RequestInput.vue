@@ -3,15 +3,15 @@
       <div v-if="!isLoad">
         <Tabs type="card">
           <TabPane label="Params">
-            <params-table :update-params="Params"></params-table>
+            <params-table :type="'params'" @ParameterChange="paramsChange"></params-table>
           </TabPane>
 
           <TabPane label="Headers">
-            <params-table :update-params="Headers"></params-table>
+            <params-table :type="'header'" @ParameterChange="headersChange"></params-table>
           </TabPane>
 
           <TabPane label="Body">
-            <json-editor :id="0" @jsonChange="jsonChange" :allow-editor="true"></json-editor>
+            <json-editor :id="0" :json="$store.state.Postman.body" :allow-editor="true"></json-editor>
           </TabPane>
         </Tabs>
       </div>
@@ -28,23 +28,27 @@
   export default {
     name: "RequestInput",
     props:{
-      Params: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      Headers: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
       isLoad: Boolean
     },
-    methods:{
-      jsonChange(v) {
-        this.$emit('jsonChange', v)
+    methods: {
+      paramsChange(v) {
+        this.$store.state.Postman.params = v
+      },
+      headersChange(v) {
+        this.$store.state.Postman.headers = v
+      },
+      ObjectToArray(obj) {
+        let arr = []
+        let i = 0
+        Object.keys(obj).forEach(function (key) {
+          i++
+          arr.push({
+            id: i,
+            key: key,
+            value: obj[key]
+          })
+        })
+        return arr
       }
     },
     components: {

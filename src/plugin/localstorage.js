@@ -9,7 +9,7 @@ export default {
   getItem: function (key) {
     var data = JSON.parse(localStorage.getItem(key));
     if (data !== null) {
-      debugger
+      // debugger
       if (data.expirse != null && data.expirse < new Date().getTime()) {
         localStorage.removeItem(key);
       } else {

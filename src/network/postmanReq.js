@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-export function request(conf) {
+export function prequest(conf) {
   return axios.request(conf)
 }

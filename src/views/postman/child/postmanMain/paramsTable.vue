@@ -10,15 +10,29 @@
   export default {
     name: "paramsTable",
     props: {
-      updateParams: {
-        type: Array,
-        default: function () {
-          return []
+      type: String
+    },
+    computed: {
+      Params() {
+        if (this.type === 'header') {
+          return this.$store.state.Postman.headers_array
+        }else {
+          return this.$store.state.Postman.params_array
         }
+
+      }
+    },
+    watch: {
+      Params(nv, ov) {
+        this.params = nv
+      },
+      updateParams(nv, ov) {
+        this.$emit('ParameterChange', this.ArrayToObject(nv))
       }
     },
     data() {
       return {
+        updateParams: [],
         columns: [
           {
             type: 'selection',
@@ -86,6 +100,14 @@
       }
     },
     methods: {
+      ArrayToObject(arr) {
+        let obj = {}
+        for (let i of arr) {
+          obj[i.key] = i.value
+        }
+        return obj
+      },
+
       newRow() {
         const lastID = this.params[this.params.length-1].id
         this.params.push({

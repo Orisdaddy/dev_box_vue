@@ -1,12 +1,16 @@
 <template>
   <div>
-    markdown
+    <mark-down-main/>
   </div>
 </template>
 
 <script>
+  import MarkDownMain from "./chlid/MarkDownMain";
   export default {
-    name: "MarkDown"
+    name: "MarkDown",
+    components: {
+      MarkDownMain
+    }
   }
 </script>
 

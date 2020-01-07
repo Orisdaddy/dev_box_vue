@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Input class="input" v-model="Url">
-      <Select v-model="method" slot="prepend"  style="width:100px">
+    <Input class="input" v-model="$store.state.Postman.host">
+      <Select v-model="$store.state.Postman.method" slot="prepend" style="width:100px">
         <Option value="GET">GET</Option>
         <Option value="POST">POST</Option>
         <Option value="PUT">PUT</Option>
@@ -14,84 +14,78 @@
 </template>
 
 <script>
-  import {request} from 'network/postmanReq'
+  import {prequest} from 'network/postmanReq'
+  import {dataRequest} from 'network/dataRequest'
   export default {
     name: "UrlInput",
-    props:{
-      Params: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      Headers: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      Json: {
-        type: Object,
-        default: function () {
-          return {}
-        }
-      }
-    },
     data() {
       return {
-        method: 'GET',
-        Url: '',
         keyList: [],
       }
     },
+
     computed: {
+      method() {
+        return this.$store.state.Postman.method
+      },
+      host() {
+        return this.$store.state.Postman.host
+      },
+      body() {
+        return this.$store.state.Postman.body
+      },
       headers() {
-        return this.ArrayToObject(this.Headers)
+        return this.$store.state.Postman.headers
       },
       params() {
-        return this.ArrayToObject(this.Params)
+        return this.$store.state.Postman.params
       },
       completeUrl() {
-        if (this.Url.substr(0, 7) === 'http://' || this.Url.substr(0, 8) === 'https://') {
-          return this.Url
+        let url = this.$store.state.Postman.host
+        if (url.substr(0, 7) === 'http://' || url.substr(0, 8) === 'https://') {
+          return url
         }else {
-          return 'http://' + this.Url
+          return 'http://' + url
         }
       }
     },
     methods: {
-      ArrayToObject(arr) {
-        const obj = {}
-        for (let i of arr){
-          obj[i.key] = i.value
-        }
-        return obj
+      addHistory(){
+        dataRequest(
+            '/postman/history/',
+            'post',
+            this.$store.state.User.token,
+            {
+              host: this.completeUrl,
+              method: this.method,
+              headers: this.headers,
+              params: this.params,
+              body: this.body,
+            })
       },
 
-      isKeyRepeat(type) {
-        const list = type === '请求头' ? this.Headers : this.Params
-        for (let i of list) {
-          this.keyList.push(i.key)
-        }
-
-        if ((new Set(this.keyList)).size != this.keyList.length) {
-          this.$Message.warning(type + '中存在相同的键')
-          this.keyList = []
-          return false
-        } else {
-          this.keyList = []
-          return true
-        }
-      },
+      // isKeyRepeat(type) {
+      //   const list = type === '请求头' ? this.headers : this.params
+      //   for (let i of list) {
+      //     this.keyList.push(i.key)
+      //   }
+      //
+      //   if ((new Set(this.keyList)).size != this.keyList.length) {
+      //     this.$Message.warning(type + '中存在相同的键')
+      //     this.keyList = []
+      //     return false
+      //   } else {
+      //     this.keyList = []
+      //     return true
+      //   }
+      // },
 
       Request() {
-        if (!this.Url) {
+        if (!this.host) {
           this.$Message.warning('必须填写请求地址')
           return
         }
-        if (this.isKeyRepeat('请求头')) {
           if (this.method === 'GET') {
-            if (this.isKeyRepeat('参数')) {
               const conf = {
                 url: this.completeUrl,
                 method: this.method,
@@ -101,32 +95,37 @@
               const time1 = new Date().getTime()
               // 打开载入气泡
               this.$emit('open')
-              request(conf).then(res => {
+              prequest(conf).then(res => {
                 res['Times'] = new Date().getTime() - time1
                 this.$emit('getRes', res)
                 this.$store.state.isRequest = true
                 this.$emit('close')
+                if (this.$store.state.User.id) {
+                  this.addHistory()
+                }
               }).catch(res => {
                 this.$emit('close')
                 this.$Notice.error({
                   title: '请求失败,请检查网络或服务端',
                 });
               })
-            }
           } else {
             const conf = {
               url: this.completeUrl,
               method: this.method,
               headers: this.headers,
-              data: this.Json
+              data: this.body
             }
             const time1 = new Date().getTime()
             this.$emit('open')
-            request(conf).then(res => {
+            prequest(conf).then(res => {
               res['Times'] = new Date().getTime() - time1
               this.$emit('getRes', res)
               this.$store.state.isRequest = true
               this.$emit('close')
+              if (this.$store.state.User.id) {
+                this.addHistory()
+              }
             }).catch(res => {
               this.$Notice.error({
                 title: '请求失败,请检查网络或服务端',
@@ -135,7 +134,6 @@
             })
           }
         }
-      }
     }
   }
 </script>

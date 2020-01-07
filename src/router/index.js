@@ -6,6 +6,7 @@ const PostMan = () => import('views/postman/PostMan')
 const MarkDown = () => import('views/markdown/MarkDown')
 const Machine = () => import('views/machine/Machine')
 const Login = () => import('views/login/Login')
+const test = () => import('views/termTest')
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,10 @@ const routes = [
   {
     path: '/machine',
     component: Machine
+  },
+  {
+    path: '/test',
+    component: test
   },
 ]
 
