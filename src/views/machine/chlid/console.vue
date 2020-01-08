@@ -16,18 +16,10 @@
     },
     data() {
       return {
-        username: '',
-        host: '',
-        currentPath: '~',
         common: '',
         cursorPosition: 0,
         ws: null,
         term: null,
-      }
-    },
-    computed: {
-      header() {
-        return '[' + this.username + '@' + this.host + ' ' + this.currentPath + ']#'
       }
     },
     methods: {
