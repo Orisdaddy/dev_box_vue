@@ -8,7 +8,7 @@
         </template>
 
       </ListItem>
-      <Scroll>
+      <Scroll height="750">
         <ListItem v-if="historyList" v-for="(i, index) in historyList" class="list-item" :key="i.id">
           <a href="javascript:void(0)" @click="getHistory(i.id)">
             <div :class="['method', i.method]">{{i.method}} </div>

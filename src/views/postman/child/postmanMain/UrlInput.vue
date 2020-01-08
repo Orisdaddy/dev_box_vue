@@ -64,22 +64,6 @@
             })
       },
 
-      // isKeyRepeat(type) {
-      //   const list = type === '请求头' ? this.headers : this.params
-      //   for (let i of list) {
-      //     this.keyList.push(i.key)
-      //   }
-      //
-      //   if ((new Set(this.keyList)).size != this.keyList.length) {
-      //     this.$Message.warning(type + '中存在相同的键')
-      //     this.keyList = []
-      //     return false
-      //   } else {
-      //     this.keyList = []
-      //     return true
-      //   }
-      // },
-
       Request() {
         if (!this.host) {
           this.$Message.warning('必须填写请求地址')

@@ -1,10 +1,13 @@
 <template>
-  <div class="machine-main">
+  <div v-if="$store.state.User.token" class="machine-main">
     <term-tabs :tabs="tabs" @openDrawer="DrawerSwitch"/>
     <machine-list :switch="Switch" @closeDrawer="DrawerSwitch" @startSession="startSession"/>
     <div class="drawer-switch" @click="DrawerSwitch(true)">
       <icon type="md-list"/>
     </div>
+  </div>
+  <div class="machine-main" v-else>
+    <a href="javascript:void(0)" @click="goLogin">请登录</a>
   </div>
 </template>
 
@@ -29,7 +32,23 @@
       },
 
       startSession(obj) {
+        for (let i of this.tabs) {
+          if (obj.id === i.id) {
+            obj.count = i.count + 1
+            if (obj.count === 1) {
+              obj.label = obj.label + '(' + obj.count +')'
+            }else if (obj.count > 1) {
+              obj.label = obj.label.replace(/\(\d.*\)/, '(' + obj.count + ')')
+            }
+          }
+        }
         this.tabs.push(obj)
+      },
+
+      goLogin() {
+        this.$router.push({
+          path: '/login'
+        })
       }
     }
   }

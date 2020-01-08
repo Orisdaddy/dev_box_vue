@@ -1,6 +1,6 @@
 <template>
     <div class="tabs">
-      <div v-if="!isLoad">
+      <div :class="{hidden: isLoad}">
         <Tabs type="card">
           <TabPane label="Params">
             <params-table :type="'params'" @ParameterChange="paramsChange"></params-table>
@@ -15,7 +15,7 @@
           </TabPane>
         </Tabs>
       </div>
-      <div v-else>
+      <div :class="{hidden: !isLoad}">
         <loading class="load"/>
       </div>
     </div>
@@ -86,5 +86,8 @@
   }
   .load >>> .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;
+  }
+  .hidden {
+    display: none;
   }
 </style>

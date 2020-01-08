@@ -16,10 +16,18 @@
     },
     data() {
       return {
+        username: '',
+        host: '',
+        currentPath: '~',
         common: '',
-        header: '[hello world]',
+        cursorPosition: 0,
         ws: null,
         term: null,
+      }
+    },
+    computed: {
+      header() {
+        return '[' + this.username + '@' + this.host + ' ' + this.currentPath + ']#'
       }
     },
     methods: {
@@ -40,20 +48,10 @@
       },
 
       receive(message) {
-        const msg = JSON.parse(message.data)
-        if (msg.mode === 'login') {
-          if (msg.status === 'error') {
-            this.$Message.error('账户密码错误')
-            this.header = '[LOGIN ERROR]'
-          }else {
-            this.header = '[' + msg.data.username + '@' + msg.data.hostname + ' ~]#'
-            this.term.write(this.header)
-          }
+        const msg = message.data
 
-        }else if (msg.mode === 'common') {
-          this.term.write('\r\n' + msg.data)
-          this.term.write('\r\n'+this.header);
-        }
+        const result = msg.replace(/.*?\r\n/, '\r\n')
+        this.term.write(result)
       },
 
       sendCommon(common) {
@@ -79,19 +77,53 @@
         cursorBlink: true,
       })
       this.term.open(document.getElementById(this.termId))
+
       this.term.onKey((key) => {
+        // 监听键盘按键
         const printable = !key.domEvent.altKey && !key.domEvent.ctrlKey && !key.domEvent.metaKey;
-        if (key.domEvent.keyCode === 13) {
+        const keyCode = key.domEvent.keyCode
+        if (keyCode === 13) {
+          // 监听回车
           this.sendCommon(this.common)
           this.common = ''
-        } else if (key.domEvent.keyCode === 8) {
+          this.cursorPosition = 0
+        } else if (keyCode === 8) {
+          // 监听退格
           if (this.common) {
             this.common = this.common.substr(0, this.common.length -1)
             this.term.write('\b \b');
+            this.cursorPosition--
+          }
+        } else if (keyCode === 38 || keyCode === 40) {
+          // 监听上下方向键
+          return
+        }else if (keyCode === 37) {
+          // 监听左方向键
+          if (this.cursorPosition <= 0) {
+            return
+          }else {
+            this.term.write(key.key);
+            this.cursorPosition--
+          }
+        }else if (keyCode === 39) {
+          // 监听右方向键
+          if (this.cursorPosition >= this.common.length) {
+            return
+          }else {
+            this.term.write(key.key);
+            this.cursorPosition++
           }
         } else if (printable) {
-          this.common += key.key
-          this.term.write(key.key);
+          // 监听其余键
+          const common0 = this.common.slice(0, this.cursorPosition)
+          const common1 = this.common.slice(this.cursorPosition)
+          this.common = common0 + key.key + common1
+          this.cursorPosition++
+          let back = ""
+          for (let i of common1) {
+            back += "[D"
+          }
+          this.term.write(key.key + common1 + back);
         }
       })
     },

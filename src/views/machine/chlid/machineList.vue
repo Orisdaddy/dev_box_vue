@@ -92,7 +92,7 @@
             this.sessionList.push({
               id: data.id,
               host: data.host,
-              alias: data.alias
+              alias: data.alias,
             })
             const name = data.alias?data.alias:data.host
             this.$Message.success('添加会话' + name)
@@ -112,7 +112,8 @@
         this.closeDrawer()
         this.$emit('startSession', {
           id: id,
-          label: label
+          label: label,
+          count: 0
         })
       },
 
