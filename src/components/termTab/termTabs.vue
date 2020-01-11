@@ -14,12 +14,10 @@
 
 <script>
   import console from "views/machine/chlid/console";
-  import termTest from "views/termTest";
   export default {
     name: "termTabs",
     components: {
       console,
-      termTest
     },
     props: {
       tabs: {

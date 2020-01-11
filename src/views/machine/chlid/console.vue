@@ -6,6 +6,7 @@
 
 <script>
   import {Terminal} from 'xterm'
+  import {ws} from 'network/ws'
   import 'xterm/css/xterm.css'
 
   export default {
@@ -56,7 +57,7 @@
 
     },
     mounted() {
-      this.ws = new WebSocket('ws://127.0.0.1:8000/ws/server/' + this.sessionId + '@' + new Date().getTime())
+      this.ws = ws(this.sessionId + '@' + new Date().getTime())
       this.ws.onopen = this.open
       this.ws.onerror = this.error
       this.ws.onmessage = this.receive
