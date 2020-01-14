@@ -41,10 +41,18 @@
       },
 
       receive(message) {
-        const msg = message.data
+        const msg = JSON.parse(message.data)
+        console.log(msg);
+        if (msg.mode === 'common') {
+          const result = msg.msg.replace(/.*?\r\n/, '\r\n')
+          this.term.write(result)
+        }else if (msg.mode === 'other') {
+          this.$Notice.warning({
+            title: msg.msg
+          })
+        }
 
-        const result = msg.replace(/.*?\r\n/, '\r\n')
-        this.term.write(result)
+
       },
 
       sendCommon(common) {
