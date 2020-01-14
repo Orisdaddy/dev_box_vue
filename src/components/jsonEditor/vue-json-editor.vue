@@ -2,12 +2,12 @@
   <div>
     <div class="jsoneditor-vue"></div>
     <div class="jsoneditor-btns" v-if="showBtns!==false">
-      <button
-        class="json-save-btn"
-        type="button"
-        @click="onSave()"
-        :disabled="error"
-      >{{ locale[lang].save }}</button>
+<!--      <button-->
+<!--        class="json-save-btn"-->
+<!--        type="button"-->
+<!--        @click="onSave()"-->
+<!--        :disabled="error"-->
+<!--      >{{ locale[lang].save }}</button>-->
     </div>
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
     modes: {
       type: Array,
       default: function() {
-        return ["tree", "code", "form", "text", "view"];
+        return ["code", "text"];
+        // return ["tree", "code", "form", "text", "view"];
       }
     },
     lang: {
