@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import machineList from "./chlid/machineList";
+  import machineList from "./Child/machineList";
   import termTabs from "components/termTab/termTabs";
   export default {
     name: "Machine",
@@ -32,8 +32,10 @@
       },
 
       startSession(obj) {
+        let index = 0
         for (let i of this.tabs) {
-          if (obj.id === i.id) {
+          index++
+          if (obj.id === i.id && obj.type === i.type) {
             obj.count = i.count + 1
             if (obj.count === 1) {
               obj.label = obj.label + '(' + obj.count +')'
@@ -42,6 +44,7 @@
             }
           }
         }
+        obj.index = index
         this.tabs.push(obj)
       },
 

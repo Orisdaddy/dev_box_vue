@@ -16,6 +16,7 @@
           </div>
           <template slot="extra">
             <a href="javascript:void(0)" title="连接" class="machine-icon" @click="startSession(i.id, i.alias?i.alias:i.host)"><icon type="ios-link"></icon></a>
+            <a href="javascript:void(0)" title="传输" class="machine-icon" @click="startTransform(i.id, i.alias?i.alias:i.host)"><icon type="ios-document"></icon></a>
             <a href="javascript:void(0)" title="修改" class="machine-icon" @click="getSessionInfoAndUpdateModalSwitch(i.id, true)"><icon type="md-build"></icon></a>
             <a href="javascript:void(0)" title="删除" class="machine-icon" @click="deleteSession(i.id, index)"><icon type="md-trash"></icon></a>
           </template>
@@ -113,6 +114,7 @@
         this.$emit('startSession', {
           id: id,
           label: label,
+          type: 'console',
           count: 0
         })
       },
@@ -153,6 +155,16 @@
         ).then(res => {
           this.sessionList.splice(index, 1)
           this.$Message.success('删除会话成功')
+        })
+      },
+
+      startTransform(id, label) {
+        this.closeDrawer()
+        this.$emit('startSession', {
+          id: id,
+          label: label,
+          type: 'sftp',
+          count: 0
         })
       }
     },

@@ -12,7 +12,7 @@
         <ListItem v-if="historyList" v-for="(i, index) in historyList" class="list-item" :key="i.id">
           <a href="javascript:void(0)" @click="getHistory(i.id)">
             <div :class="['method', i.method]">{{i.method}} </div>
-            <div class="url">{{i.host | Ellipsis}}</div>
+            <div class="url">{{i.host | Ellipsis(35)}}</div>
           </a>
           <template slot="extra">
             <div class="extra">
@@ -70,17 +70,6 @@
       },
       getHistory(id) {
         this.$emit('reqHistory', id)
-      }
-    },
-    filters: {
-      Ellipsis(v) {
-        if (v.length >= 35) {
-          return v.substr(0, 35) + '...'
-        }
-        return v
-      },
-      dateTime(time) {
-        return new Date(time).toLocaleString('chinese', {hour12: false}).replace('/', "-").replace("/", "-")
       }
     },
     mounted() {

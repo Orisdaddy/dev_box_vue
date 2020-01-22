@@ -42,17 +42,16 @@
 
       receive(message) {
         const msg = JSON.parse(message.data)
-        console.log(msg);
         if (msg.mode === 'common') {
-          const result = msg.msg.replace(/.*?\r\n/, '\r\n')
+          // const result = msg.msg.replace(/.*?\r\n/, '\r\n')
+          const result = msg.msg
+
           this.term.write(result)
         }else if (msg.mode === 'other') {
           this.$Notice.warning({
             title: msg.msg
           })
         }
-
-
       },
 
       sendCommon(common) {
@@ -65,7 +64,7 @@
 
     },
     mounted() {
-      this.ws = ws(this.sessionId + '@' + new Date().getTime())
+      this.ws = ws('ssh', this.sessionId + '@' + new Date().getTime())
       this.ws.onopen = this.open
       this.ws.onerror = this.error
       this.ws.onmessage = this.receive

@@ -15,9 +15,21 @@
           在线文档
         </MenuItem>
         <MenuItem name="machine">
-          <Icon type="ios-desktop"/>
+          <Icon type="ios-desktop" />
           设备管理
         </MenuItem>
+        <Submenu name="">
+          <template slot="title">
+            <Icon type="ios-buffer" />
+            数据库管理
+          </template>
+          <MenuGroup title="SQL">
+            <MenuItem name="3-1">mysql</MenuItem>
+          </MenuGroup>
+          <MenuGroup title="NO SQL">
+            <MenuItem name="3-4">redis</MenuItem>
+          </MenuGroup>
+        </Submenu>
       </Col>
       <Col span="2">
         <MenuItem v-if="this.$store.state.User.username" name="home">

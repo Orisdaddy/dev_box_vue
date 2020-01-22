@@ -1,8 +1,9 @@
 <template>
   <div class="term-tabs">
     <Tabs v-if="tabs.length != 0" type="card" @on-tab-remove="handleTabRemove" :animated="false">
-      <TabPane v-for="(i, index) in tabs" :key="index" :label="i.label" closable>
-        <console :session-id="i.id" :term-id="'console' + index"/>
+      <TabPane v-for="(i, index) in tabs" :key="i.label + i.type" :icon="icon(i.type)" :label="i.label" closable>
+        <console v-if="i.type === 'console'" :session-id="i.id" :term-id="'console' + index"/>
+        <sftp v-if="i.type === 'sftp'" :session-id="i.id"/>
       </TabPane>
     </Tabs>
     <div v-else>
@@ -13,11 +14,13 @@
 </template>
 
 <script>
-  import console from "views/machine/chlid/console";
+  import Console from "views/machine/Child/console";
+  import sftp from "views/machine/Child/sftp";
   export default {
     name: "termTabs",
     components: {
-      console,
+      Console,
+      sftp
     },
     props: {
       tabs: {
@@ -27,17 +30,27 @@
         }
       }
     },
-    data () {
-      return {
-      }
-    },
     methods: {
-      handleTabRemove (name) {
-        this.tabs.splice(index, 1)
+      handleTabRemove (index) {
+        for (let i=0;i<this.tabs.length;i++) {
+          let tabIndex = this.tabs[i].index
+          if (index === tabIndex) {
+            this.tabs.splice(i, 1)
+          }
+        }
       },
+
 
       openDrawer () {
         this.$emit('openDrawer', true)
+      },
+
+      icon(type) {
+        if (type === 'console') {
+          return 'ios-link'
+        }else if (type === 'sftp') {
+          return 'ios-document'
+        }
       }
     }
   }
