@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: Change host
+        run: node ch.js ${{ secrets.SSH_HOST }}
       - run: npm install
       - run: npm run build
       - name: Deploy

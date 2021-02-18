@@ -1,3 +1,3 @@
 export function ws(mode, p) {
-  return new WebSocket('ws://127.0.0.1:8000/ws/' + mode +'_server/' + p)
+  return new WebSocket('ws://${host}:8090/ws/' + mode +'_server/' + p)
 }
