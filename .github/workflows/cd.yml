@@ -18,13 +18,12 @@ jobs:
           node-version: 12.x
       - run: npm install
       - run: npm run build
-      - name: Deploy to Server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-        DEPLOY_KEY: ${{ secrets.SSH_KEY }}
-        ARGS: -avz --delete --exclude='*.pyc'
-        SERVER_PORT: "22"
-        FOLDER: ./build/*
-        SERVER_IP: ${{ secrets.SSH_HOST }}
-        USERNAME: ${{ secrets.SSH_USERNAME }}
-        SERVER_DESTINATION: /usr/share/nginx/html/
+      - name: Deploy
+        uses: garygrossgarten/github-action-scp@release
+        with:
+            local: dist
+            remote: /usr/share/nginx/html/
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            password: ${{ secrets.PASSWORD }}
+            concurrency: 1
