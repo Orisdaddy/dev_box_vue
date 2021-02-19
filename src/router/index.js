@@ -12,15 +12,14 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    component: Home,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/login',
     component: Login
-  },
-  {
-    path: '/home',
-    component: Home
   },
   {
     path: '/postman',
