@@ -17,6 +17,8 @@
 
 <script>
   import {request} from 'network/request'
+  import crypto from "crypto";
+
   export default {
     name: "login",
     data() {
@@ -43,13 +45,17 @@
         return true
       },
       Login() {
+        const sha256 = crypto.createHash('sha256');
+        sha256.update(this.password);
+        const password = sha256.digest("hex")
+
         if(this.VerifyForm()){
           request({
             url: '/user/login',
             method: 'post',
             data: {
               username: this.username,
-              password: this.password,
+              password: password,
               captcha: this.captcha,
               captcha_code: this.captchaCode
             }
